@@ -6,20 +6,20 @@ Useful for displaying YouTube videos via iframe embeds but restricting acceess t
 Example: view unlisted videos and prevent access to the video URL/id via the share button.  
 
 ## How does it work?  
-A simple `div` overlay with custom controls over the iframe embed.
+A complete `div` overlay restricts any access to the iframe embed.
 
-The custom controls provides access to the video playback (via the YouTube Player API) instead of directly interacting with the embedded player.  
+The custom controls provides access to the video playback (via the YouTube Player API) instead of direct access to the embedded player.  
 
 ## Dependencies 
 
-1. react. 
-2. react-youtube. 
-3. tailwind.
+1. react 
+2. react-youtube
+3. tailwind
 4. heroicons
-5. vite.  
+5. vite
 
 ## Installation/Testing 
-```
+```bash
 > git clone https://github.com/stravo1/react-yt-player.git
 > npm run install
 > npm run dev

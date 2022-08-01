@@ -12,15 +12,16 @@ The custom controls provides access to the video playback (via the YouTube Playe
 
 ## Dependencies 
 
-1. react 
-2. react-youtube
-3. tailwind
-4. heroicons
-5. vite
+1. [react](https://reactjs.org/)
+2. [react-youtube](https://www.npmjs.com/package/react-youtube)
+3. [tailwind](https://tailwindcss.com/docs/guides/vite)
+4. [heroicons](https://heroicons.com/)
+5. [vite](https://vitejs.dev/)
 
 ## Installation/Testing 
 ```bash
-> git clone https://github.com/stravo1/react-yt-player.git
-> npm run install
-> npm run dev
+git clone https://github.com/stravo1/react-yt-player.git
+cd react-yt-player
+npm run install
+npm run dev
 ```

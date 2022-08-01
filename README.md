@@ -22,6 +22,6 @@ The custom controls provides access to the video playback (via the YouTube Playe
 ```bash
 git clone https://github.com/stravo1/react-yt-player.git
 cd react-yt-player
-npm run install
+npm install
 npm run dev
 ```

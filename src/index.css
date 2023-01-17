@@ -1,77 +1,79 @@
+/* video seek slider styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 #seek {
-	margin: auto;
-	appearance: none;
-	-webkit-appearance: none;
-	overflow: hidden;
-	height: 0.25rem;
-	width: 100%;
-	cursor: pointer;
-	border-radius: 2rem; /* iOS */
-	z-index: 20;
+  margin: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  overflow: hidden;
+  height: 0.25rem;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 2rem; /* iOS */
+  z-index: 20;
 }
 
 #seek::-webkit-slider-runnable-track {
-	background: #ddd;
+  background: #ddd;
 }
 
 /*
- * 1. Set to 0 width and remove border for a slider without a thumb
- * 2. Shadow is negative the full width of the input and has a spread 
- *    of the width of the input.
- */
+   * 1. Set to 0 width and remove border for a slider without a thumb
+   * 2. Shadow is negative the full width of the input and has a spread 
+   *    of the width of the input.
+   */
 #seek::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	width: 0.5rem; /* 1 */
-	height: 0.5rem;
-	background: crimson;
-	box-shadow: -100vh 0 0 100vh crimson;
+  -webkit-appearance: none;
+  width: 0.5rem; /* 1 */
+  height: 0.5rem;
+  background: crimson;
+  box-shadow: -100vh 0 0 100vh crimson;
 }
 
 #seek::-moz-range-track {
-	height: 0.25rem;
-	background: #ddd;
+  height: 0.25rem;
+  background: #ddd;
 }
 
 #seek::-moz-range-thumb {
-	background: crimson;
-	height: 0.5rem;
-	width: 0.5rem;
-	border-radius: 0 !important;
-	box-shadow: -100vh 0 0 100vh crimson;
-	box-sizing: border-;
+  background: crimson;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 0 !important;
+  box-shadow: -100vh 0 0 100vh crimson;
+  box-sizing: border-box;
+  border: 0px;
 }
 
 #seek::-ms-fill-lower {
-	background: crimson;
+  background: crimson;
 }
 
 #seek::-ms-thumb {
-	background: #fff;
-	border: 2px solid #999;
-	height: 0.5rem;
-	width: 0.5rem;
-	box-sizing: border-box;
+  background: #fff;
+  border: 2px solid #999;
+  height: 0.5rem;
+  width: 0.5rem;
+  box-sizing: border-box;
 }
 
 #seek::-ms-ticks-after {
-	display: none;
+  display: none;
 }
 
 #seek::-ms-ticks-before {
-	display: none;
+  display: none;
 }
 
 #seek::-ms-track {
-	background: #ddd;
-	color: transparent;
-	height: 0.25rem;
-	border: none;
+  background: #ddd;
+  color: transparent;
+  height: 0.25rem;
+  border: none;
 }
 
 #seek::-ms-tooltip {
-	display: none;
+  display: none;
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import YouTube from "react-youtube";
+
 import {
   PauseIcon,
   PlayIcon,
@@ -8,10 +9,16 @@ import {
   ExternalLinkIcon,
   VolumeOffIcon,
   VolumeUpIcon,
+  CogIcon,
 } from "@heroicons/react/outline";
 
-const Player = ({ videoId }) => {
+import { useMediaQuery } from "react-responsive";
+
+const Player = ({ videoId, title }) => {
+  const isPortrait = useMediaQuery({ orientation: "portrait" });
+  const [full, setFull] = useState(false);
   const [width, setWidth] = useState(0);
+
   useEffect(() => {
     var temp = document.getElementById("frame-cover").offsetWidth;
     setWidth(temp);
@@ -22,30 +29,31 @@ const Player = ({ videoId }) => {
           setFull(false);
         }
       });
-  });
+  }, [isPortrait, full]);
 
   const [player, setPlayer] = useState(null);
   const [paused, setPaused] = useState(true);
   const [mute, setMute] = useState(false);
-  const [full, setFull] = useState(false);
   const [visible, setVisible] = useState(false);
   const [duration, setDuration] = useState();
   const [time, setTime] = useState(0);
   const [timer, setTimer] = useState(null);
   const [intrvl, setIntrvl] = useState(null);
+  const [rate, setRate] = useState(1);
 
   const onPlayerReady = (e) => {
     setPlayer(e.target);
     setDuration(e.target.getDuration());
     e.target.pauseVideo();
+
     setPaused(true);
     setVisible(false);
     setTime(0);
+    setRate(1);
+
     if (intrvl != null) {
       clearInterval(intrvl);
-      setInterval(() => {
-        setTime(e.target.getCurrentTime());
-      }, 100);
+      setIntrvl(null);
     }
   };
   return (
@@ -101,6 +109,9 @@ const Player = ({ videoId }) => {
             className="absolute top-0 flex h-full w-full flex-col justify-end bg-neutral-800 transition-all"
             style={!visible ? { opacity: "0" } : { opacity: "80%" }}
           >
+            <div className="absolute top-0 truncate p-4 max-w-[80vw] lg:max-w-[55vw] font-medium text-neutral-50 lg:text-xl">
+              {title}
+            </div>
             <div className="absolute flex h-full w-full items-center justify-between px-16">
               <button
                 title="5 secs backward"
@@ -181,10 +192,10 @@ const Player = ({ videoId }) => {
                 <ChevronDoubleRightIcon />
               </button>
             </div>
-            <div className="z-10 my-2 flex items-end justify-between px-4">
+            <div className="flex items-center justify-between py-1 md:py-2">
               <button
                 title={mute ? "Unmute" : "Mute"}
-                className="h-4 w-4 text-neutral-50 transition-all"
+                className="z-20 mx-2 h-6 w-6 text-neutral-50 transition-all lg:mx-4"
                 onClick={() => {
                   if (mute) {
                     player.unMute();
@@ -196,29 +207,7 @@ const Player = ({ videoId }) => {
               >
                 {mute ? <VolumeOffIcon /> : <VolumeUpIcon />}
               </button>
-              <button
-                className="h-4 w-4 text-neutral-50 transition-all"
-                onClick={() => {
-                  var iframe = document.getElementById("frame-cover");
-                  var requestFullScreen =
-                    iframe.requestFullScreen ||
-                    iframe.mozRequestFullScreen ||
-                    iframe.webkitRequestFullScreen;
-                  if (requestFullScreen) {
-                    requestFullScreen.bind(iframe)();
-                    setFull(true);
-                  }
-                  if (full) {
-                    document.exitFullscreen();
-                    setFull(false);
-                  }
-                }}
-              >
-                <ExternalLinkIcon />
-              </button>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="m-2 text-sm text-neutral-50">
+              <div className="mr-1  text-[0.65rem] text-neutral-50 md:text-sm lg:mr-2">
                 {Math.floor(time / 3600).toString().length == 1
                   ? "0" + Math.floor(time / 3600).toString()
                   : Math.floor(time / 3600)}
@@ -255,7 +244,7 @@ const Player = ({ videoId }) => {
                   setTime(parseInt(e.target.value));
                 }}
               ></input>
-              <div className="m-2 text-sm text-neutral-50">
+              <div className="ml-1 text-[0.65rem] text-neutral-50 md:text-sm lg:ml-2">
                 {Math.floor(duration / 3600).toString().length == 1
                   ? "0" + Math.floor(duration / 3600).toString()
                   : Math.floor(duration / 3600)}
@@ -268,6 +257,47 @@ const Player = ({ videoId }) => {
                   ? "0" + Math.floor(duration % 60).toString()
                   : Math.floor(duration % 60)}
               </div>
+
+              <select
+                name="rate"
+                id="rate-select"
+                value={rate}
+                onChange={(e) => {
+                  setRate(e.target.value);
+                  player.setPlaybackRate(parseInt(e.target.value));
+                  //console.log(player.getAvailablePlaybackRates())
+                }}
+                className="z-20 mx-1 w-[2rem] bg-transparent text-center text-[0.6rem] text-neutral-50 transition-all md:text-[0.7rem] lg:mx-2 lg:w-[2.25rem]"
+              >
+                <option value="" disabled>
+                  Choose Play Back Speed
+                </option>
+                {[0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].map((item, index) => (
+                  <option value={item} key={index.toString()}>
+                    {item} x
+                  </option>
+                ))}
+              </select>
+              <button
+                className="z-20 mx-2 h-6 w-6 text-neutral-50 transition-all lg:mx-4"
+                onClick={() => {
+                  var iframe = document.getElementById("frame-cover");
+                  var requestFullScreen =
+                    iframe.requestFullScreen ||
+                    iframe.mozRequestFullScreen ||
+                    iframe.webkitRequestFullScreen;
+                  if (requestFullScreen) {
+                    requestFullScreen.bind(iframe)();
+                    setFull(true);
+                  }
+                  if (full) {
+                    document.exitFullscreen();
+                    setFull(false);
+                  }
+                }}
+              >
+                <ExternalLinkIcon />
+              </button>
             </div>
           </div>
         </div>
